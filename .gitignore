@@ -1,0 +1,5 @@
+.vscode/
+Data/*
+venv/
+Models/*
+src/
