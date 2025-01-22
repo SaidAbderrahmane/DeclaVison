@@ -1,0 +1,28 @@
+import ffmpeg
+import os
+import shutil
+from tkinter import filedialog,Tk
+
+root = Tk()
+root.withdraw()
+
+# ouvre une fenêtre pour que l'utilisateur choisisse un fichier (filepath = chemin du fichier choisi)
+filepath = filedialog.askopenfilename(title="Ouvrir un fichier video", filetypes=(("Fichiers vidéo", "*.mov *.mp4"), ("tous les fichiers","*.*")))
+print(filepath)
+
+
+# Dossier de destination pour les images extraites
+if os.path.exists("./image_sortie"):
+    shutil.rmtree("./image_sortie")
+
+
+Dossier_sortie = "./image_sortie"
+os.makedirs(Dossier_sortie, exist_ok=True) # crée le dossier dans le repertoire courant
+
+    # Définir le chemin et le modèle de sortie pour les images
+chemin_sortie = os.path.join(Dossier_sortie, 'frame_%04d.jpg')
+
+    # Utiliser ffmpeg pour extraire les images à raison d'une par seconde
+ffmpeg.input(filepath, ss=0).filter('fps', fps=1).output(chemin_sortie).run()
+
+
