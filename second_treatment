@@ -1,0 +1,89 @@
+import os
+import cv2
+from skimage.metrics import structural_similarity as ssim
+import subprocess
+
+# Chemin de la vidéo
+input_video = "data/fuite.mp4"
+
+# Répertoire pour sauvegarder les frames extraites
+output_dir = "frames"
+clean_frame_dir = "clean_frames"
+
+# Supprime les anciens dossiers pour garantir un traitement propre
+if os.path.exists(output_dir):
+    for f in os.listdir(output_dir):
+        os.remove(os.path.join(output_dir, f))
+else:
+    os.makedirs(output_dir)
+
+if os.path.exists(clean_frame_dir):
+    for f in os.listdir(clean_frame_dir):
+        os.remove(os.path.join(clean_frame_dir, f))
+else:
+    os.makedirs(clean_frame_dir)
+
+# Vérifie si la vidéo existe
+if not os.path.exists(input_video):
+    print(f"Erreur : La vidéo spécifiée '{input_video}' est introuvable.")
+    exit()
+
+# Commande FFmpeg pour extraire les frames (1 frame toutes les 2 secondes)
+command = [
+    "ffmpeg", "-i", input_video,          # Vidéo d'entrée
+    "-vf", "fps=0.5",                    # Extraction à 1 frame toutes les 2 secondes
+    f"{output_dir}/frame_%04d.jpg"       # Nom des frames extraites
+]
+
+# Exécuter la commande FFmpeg
+print("Extraction des frames...")
+try:
+    subprocess.run(command, check=True)  # Ajoute une vérification pour détecter les erreurs
+    print(f"Frames extraites dans le dossier : {output_dir}")
+except subprocess.CalledProcessError as e:
+    print("Erreur lors de l'exécution de FFmpeg :", e)
+    exit()
+
+# Fonction pour comparer deux frames avec SSIM
+def are_similar(img1, img2, threshold=0.95):
+    """Compare deux images avec SSIM."""
+    gray1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)  # Convertir en niveaux de gris
+    gray2 = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)  # Convertir en niveaux de gris
+    score, _ = ssim(gray1, gray2, full=True)       # Calculer la similarité
+    return score > threshold, score
+
+# Traitement des frames pour supprimer les doublons
+print("Début du traitement des frames...")
+previous_frame = None
+saved_count = 0
+
+# Trier les fichiers par ordre de noms
+frame_files = sorted(os.listdir(output_dir), key=lambda x: int(x.split('_')[-1].split('.')[0]))
+
+for frame_file in frame_files:  # Parcourir les frames par ordre
+    frame_path = os.path.join(output_dir, frame_file)
+    if not frame_file.endswith(".jpg"):
+        continue  # Ignorer les fichiers qui ne sont pas des images
+
+    # Charger la frame actuelle
+    frame = cv2.imread(frame_path)
+    if frame is None:
+        print(f"Erreur : Impossible de lire la frame {frame_path}.")
+        continue  # Passer si la frame est corrompue
+
+    # Comparer avec la frame précédente
+    if previous_frame is not None:
+        similar, similarity_score = are_similar(previous_frame, frame)
+        if similar:
+            print(f"Frame redondante supprimée : {frame_file} (Simil. : {similarity_score:.2f})")
+            os.remove(frame_path)  # Supprimer la frame redondante
+            continue
+
+    # Sauvegarder la frame si elle n'est pas redondante
+    previous_frame = frame  # Mettre à jour la frame précédente
+    clean_frame_path = os.path.join(clean_frame_dir, frame_file)
+    cv2.imwrite(clean_frame_path, frame)  # Sauvegarder dans le répertoire des frames nettoyées
+    saved_count += 1
+    print(f"Frame sauvegardée : {clean_frame_path}")
+
+print(f"Traitement terminé. {saved_count} frames uniques sauvegardées dans '{clean_frame_dir}'.")
