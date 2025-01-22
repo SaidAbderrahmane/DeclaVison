@@ -2,6 +2,27 @@ import ffmpeg
 import os
 import shutil
 from tkinter import filedialog,Tk
+from PIL import Image, ImageFilter
+import numpy as np
+
+def est_floue(image_path, seuil):
+    # Charger l'image et la convertir en niveaux de gris
+    image = Image.open(image_path).convert('L')
+
+    # Appliquer un filtre Laplacien
+    laplacian = image.filter(ImageFilter.FIND_EDGES)
+
+    # Convertir l'image filtrée en tableau NumPy
+    laplacian_array = np.array(laplacian)
+
+    # Calculer la variance des valeurs Laplaciennes
+    variance_laplacian = laplacian_array.var()
+
+    # Vérifier si l'image est floue
+    if variance_laplacian < seuil:
+        return True, variance_laplacian  # L'image est floue
+    else:
+        return False, variance_laplacian  # L'image n'est pas floue
 
 root = Tk()
 root.withdraw()
@@ -24,5 +45,25 @@ chemin_sortie = os.path.join(Dossier_sortie, 'frame_%04d.jpg')
 
     # Utiliser ffmpeg pour extraire les images à raison d'une par seconde
 ffmpeg.input(filepath, ss=0).filter('fps', fps=1).output(chemin_sortie).run()
+
+chemin_image = "./image_sortie/frame_000"
+c = 1
+while True :
+    if c == 10:
+        chemin_image = "./image_sortie/frame_00"
+    elif c == 100:
+        chemin_image = "./image_sortie/frame_0"
+    if os.path.exists(chemin_image+str(c)+".jpg"):
+        floue, valeur = est_floue(chemin_image + str(c) + ".jpg", seuil=125)
+    else:
+        print("ok")
+        break
+    if floue:
+        print(chemin_image + str(c) + ".jpg")
+        os.remove(chemin_image + str(c) + ".jpg")
+        print(f"L'image est floue (variation Laplacienne = {valeur:.2f}).")
+    else:
+        print(f"L'image est nette (variation Laplacienne = {valeur:.2f}).")
+    c+=1
 
 
