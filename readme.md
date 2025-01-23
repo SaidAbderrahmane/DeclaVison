@@ -1,33 +1,48 @@
-# Projet : Analyse de vidéos pour la déclaration de sinistre
+# Projet Détection d'Incidents
 
-## Contexte
+Ce projet utilise le modèle YOLO pour la détection d'incidents à partir de vidéos. Il inclut des étapes de prétraitement, d'entraînement et d'évaluation des modèles sur deux types d'incidents : incidents automobiles et incidents domestiques.
 
-Le comportement des sociétaires MAIF a changé, et il est désormais nécessaire de prendre en compte les fichiers vidéo comme pièces justificatives pour les déclarations de sinistre. Ce projet vise à faire évoluer les processus internes de l'entreprise pour répondre à ce besoin.
+## Structure du Projet
 
-## Objectifs
+- **`data`** : Contient les données brutes pour le cas d'utilisation (petites vidéos d'incidents).
+- **`models`** : Contient les modèles préentraînés pour le traitement d'images (YOLOv8l et YOLOv8n).
+- **`notebooks`** : Contient les notebooks  de développement et de test.
+- **`docs`** : Contient les supports et documents relatifs au projet.
+- **`preprocess.py`** : Contient le code pour l'échantillonnage des images à partir des vidéos.
+- **`train.py`** : Contient le code pour l'entraînement des modèles YOLO.
+- **`evaluate.py`** : Contient le code pour l'évaluation du modèle sur des vidéos afin de détecter les incidents.
+- **`dataset_incident_auto`** : Dataset généré avec Roboflow, incluant les labels et les données divisées pour l'entraînement sur les incidents automobiles.
+- **`dataset_incident_maison`** : Dataset généré avec Roboflow, incluant les labels et les données divisées pour l'entraînement sur les incidents domestiques.
 
-- Faire évoluer le parcours métier de la déclaration de sinistre pour proposer la possibilité de déposer des fichiers vidéo comme pièces justificatives
-- Analyser le contenu des vidéos et produire des indicateurs pertinents pour le gestionnaire en charge de la gestion du sinistre
-- Fournir des imagettes extraites de la vidéo pour un dépôt dans un système de GED
+## Fonctionnalités Principales
 
-## Résultats attendus
+1. **Prétraitement des Vidéos**
+   - Extraction d'images à partir de vidéos pour générer des datasets utilisables.
+   - Script : `preprocess.py`.
 
-- Un modèle capable d'analyser des vidéos et de produire les indicateurs nécessaires
-- Une précision du modèle à 90 %
+2. **Entraînement des Modèles**
+   - Utilisation de YOLOv8 pour entraîner les modèles sur des datasets personnalisés.
+   - Supporte deux datasets distincts : incidents automobiles et incidents domestiques.
+   - Script : `train.py`.
+
+3. **Évaluation des Modèles**
+   - Test des modèles entraînés sur des vidéos pour détecter et identifier les incidents.
+   - Script : `evaluate.py`.
+
+## Prérequis
+
+- Python 3.8 ou ultérieur.
+- Bibliothèques nécessaires (à installer avec pip) :
+  ```bash
+  pip install -r requirements.txt
+  ```
+- CUDA (optionnel) pour accélérer l'entraînement si un GPU est disponible.
 
 
-## Critères de validation
+## Datasets
 
-- Précision du modèle à 90 % 
-- Validation des typologies par des experts métier
-Technologies
-- [À définir]
-
-
-## Guide d'installation
-
-Se placer à la racine du projet
-- Créer un environnement virtuel `venv` en exécutant la commande `python -m venv venv`
-- Exécuter la commande `python -m pip install -r requirements.txt`
+- **`dataset_incident_auto`** : Utilisé pour les incidents automobiles.
+- **`dataset_incident_maison`** : Utilisé pour les incidents domestiques.
+- Les datasets incluent les labels et les images, générés avec Roboflow.
 
 

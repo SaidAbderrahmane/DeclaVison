@@ -1,4 +1,0 @@
-train: .Data/augmented_keyframes/train
-val: .Data/augmented_keyframes/val
-nc: 2
-es: ["home_incident","route_incident"]  # Replace with actual class names
