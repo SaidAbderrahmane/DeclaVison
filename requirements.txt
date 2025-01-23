@@ -1,4 +1,5 @@
 ffmpeg
+cv2
 ultralytics
 labelImg
 torch

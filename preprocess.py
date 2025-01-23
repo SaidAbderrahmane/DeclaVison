@@ -1,7 +1,5 @@
 import os
 import cv2
-import shutil
-import random
 
 
 def extract_frames(video_path, output_dir, fps=1):
@@ -95,7 +93,7 @@ if __name__ == "__main__":
             for video_file in os.listdir(category_path):
                 video_path = os.path.join(category_path, video_file)
                 if video_file.endswith((".mp4", ".avi", ".mov", ".MOV")):
-                    extract_frames(video_path, output_category_dir,category)
+                    extract_frames(video_path, output_category_dir)
 
     # Step 2: Organize dataset into train/val/test splits
-    split_data(extracted_frames_dir, output_dir, train_ratio=0.7, val_ratio=0.2)
+    # split_data(extracted_frames_dir, output_dir, train_ratio=0.7, val_ratio=0.2)
