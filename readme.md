@@ -27,6 +27,7 @@ Ce projet utilise le modèle YOLO pour la détection d'incidents à partir de vi
 
 3. **Évaluation des Modèles**
    - Test des modèles entraînés sur des vidéos pour détecter et identifier les incidents.
+   - modifier le scripts en speciefiant quel model à lancer
    - Script : `evaluate.py`.
 
 ## Prérequis
@@ -37,6 +38,13 @@ Ce projet utilise le modèle YOLO pour la détection d'incidents à partir de vi
   pip install -r requirements.txt
   ```
 - CUDA (optionnel) pour accélérer l'entraînement si un GPU est disponible.
+
+## How to run
+
+- Placer les videos sur le dossier `Data` pour faire le prétraitement dessus
+- Télécharger les 2 datasets éttiquetés et annotés (labeled) depuis les liens suivant:
+ https://drive.google.com/file/d/1El_sRUwU0cmG6Uiqu3iHwVYcO14c5acH/view?usp=sharing
+ https://drive.google.com/file/d/1El_sRUwU0cmG6Uiqu3iHwVYcO14c5acH/view?usp=drive_link
 
 
 ## Datasets
