@@ -6,6 +6,12 @@ from tkinter import filedialog,Tk
 root = Tk()
 root.withdraw()
 
+"""
+Le programme "création_de_set_de_donnée" prend une vidéo, crée trois vidéos (480p, 720p et 1080p) 
+et pour chacun crée un set de photo avec une certain fréquence (0.2s,1s et 5s),on va utilisé ses set de donnée soit pour entrainé notre 
+model ou pour testé notre et savoir quelle valeur de FPS et qualité vidéo est le mieux niveau vitesse/précision pour notre model
+"""
+
 def redimensionner_video(chemin_entré, chemin_sortie, resolution):
 
     # Définitions des dimensions pour chaque résolution
