@@ -44,7 +44,7 @@ Ce projet utilise le modèle YOLO pour la détection d'incidents à partir de vi
 - Placer les videos sur le dossier `Data` pour faire le prétraitement dessus
 - Télécharger les 2 datasets éttiquetés et annotés (labeled) depuis les liens suivant:
  https://drive.google.com/file/d/1El_sRUwU0cmG6Uiqu3iHwVYcO14c5acH/view?usp=sharing
- https://drive.google.com/file/d/1El_sRUwU0cmG6Uiqu3iHwVYcO14c5acH/view?usp=drive_link
+ https://drive.google.com/file/d/1swy9Y3EuvsqM5IZB4XpC87ELBCOEe59b/view?usp=sharing
 
 
 ## Datasets
