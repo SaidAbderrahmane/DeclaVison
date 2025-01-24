@@ -12,7 +12,7 @@ if __name__ == "__main__":
 
 
     # Load the trained model
-    model = YOLO('runs/detect/train4/weights/best.pt')
+    model = YOLO('Models/car_incident_trained_model.pt')
 
     video_path = "Data/videos/home_incident/IMG_4775 2.MOV"
 
