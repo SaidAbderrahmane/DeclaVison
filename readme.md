@@ -10,7 +10,9 @@ Ce projet utilise le modèle YOLO pour la détection d'incidents à partir de vi
 - **`docs`** : Contient les supports et documents relatifs au projet.
 - **`preprocess.py`** : Contient le code pour l'échantillonnage des images à partir des vidéos.
 - **`train.py`** : Contient le code pour l'entraînement des modèles YOLO.
-- **`evaluate.py`** : Contient le code pour l'évaluation du modèle sur des vidéos afin de détecter les incidents.
+- **`evaluate_car.py`** : Contient le code pour l'évaluation du modèle sur des vidéos afin de détecter les incidents de route.
+- **`evaluate_home.py`** : Contient le code pour l'évaluation du modèle sur des vidéos afin de détecter les incidents de maison.
+- **`classify.py`** : Contient le code pour calssifier une video en la passant sur les deux modeles et en comparant la confiance de chaque modele.
 - **`dataset_incident_auto`** : Dataset généré avec Roboflow, incluant les labels et les données divisées pour l'entraînement sur les incidents automobiles.
 - **`dataset_incident_maison`** : Dataset généré avec Roboflow, incluant les labels et les données divisées pour l'entraînement sur les incidents domestiques.
 
